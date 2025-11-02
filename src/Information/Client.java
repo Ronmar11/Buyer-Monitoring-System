@@ -8,7 +8,7 @@ package Information;
  *
  * @author Ronmar abalos
  */
-public class User {
+public class Client {
     private String fName;
     private String mName;
     private String lName;

@@ -15,7 +15,8 @@ public class ConnectionProvider {
     
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localHost:3306");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localHost:3306//bms?useSSL=false", "root","rrabalos");
+            return con;
             
         } catch (Exception e) {
             return null;
