@@ -17,7 +17,7 @@ public class DbOperations {
             Statement st = con.createStatement();
             st.executeUpdate(Query);
             
-            if (!msg.equals("")) 
+            if (!msg.equals(""))    
                 JOptionPane.showMessageDialog(null, msg);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);

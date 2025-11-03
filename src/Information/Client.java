@@ -9,12 +9,17 @@ package Information;
  * @author Ronmar abalos
  */
 public class Client {
+    private int clientID;
     private String fName;
     private String mName;
     private String lName;
-    private String email;
+    private String address;
     private String gender;
 
+ 
+    public int getclientID(){
+        return clientID;
+    }
     public String getfName() {
         return fName;
     }
@@ -39,12 +44,12 @@ public class Client {
         this.lName = lName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getaddress() {
+        return address;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setaddress(String address) {
+        this.address = address;
     }
 
     public String getGender() {
@@ -53,6 +58,9 @@ public class Client {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+    public Object[] toTableRow() {
+        return new Object[]{clientID, fName, mName, lName, address, gender};
     }
     
     

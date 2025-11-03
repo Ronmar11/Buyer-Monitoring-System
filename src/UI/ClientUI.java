@@ -4,19 +4,46 @@
  */
 package UI;
 
+import javax.swing.JOptionPane;
+import Information.Client;
+import DB.ClientDB;
+
 /**
  *
  * @author Ronmar abalos
  */
-public class Client extends javax.swing.JFrame {
+public class ClientUI extends javax.swing.JFrame {
 
     /**
      * Creates new form Client
      */
-    public Client() {
+    public ClientUI() {
         initComponents();
+        btnSave.setEnabled(false);
     }
-
+    public void Clear(){
+    firstName.setText("");
+    midName.setText("");
+    lastName.setText("");
+    address.setText("");
+    btnSave.setEnabled(false);
+    }
+   
+    public void validateFields(){
+    String Fname = firstName.getText();
+    String Mname = midName.getText();
+    String Lname = lastName.getText();
+    String Address = address.getText();
+    if(!Fname.equals("") && !Mname.equals("") && !Lname.equals("") && !Address.equals("")){
+        btnSave.setEnabled(true);
+    } else{
+        btnSave.setEnabled(false);
+    }
+    
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,6 +63,8 @@ public class Client extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
+        exit = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         firstName = new javax.swing.JTextField();
@@ -44,16 +73,15 @@ public class Client extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         lastName = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        address = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        email = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
         gender = new javax.swing.JComboBox<>();
-        btnClear = new java.awt.Button();
-        btnAdd = new java.awt.Button();
+        Clear = new java.awt.Button();
+        btnSave = new java.awt.Button();
         jPanel7 = new javax.swing.JPanel();
         scrollPane1 = new java.awt.ScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        JTABLE = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
@@ -61,7 +89,7 @@ public class Client extends javax.swing.JFrame {
         btnDelete = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(950, 550));
+        setPreferredSize(new java.awt.Dimension(1100, 550));
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
 
@@ -163,6 +191,35 @@ public class Client extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        exit.setBackground(new java.awt.Color(0, 0, 51));
+        exit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                exit(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Impact", 1, 36)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(204, 0, 0));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("x");
+
+        javax.swing.GroupLayout exitLayout = new javax.swing.GroupLayout(exit);
+        exit.setLayout(exitLayout);
+        exitLayout.setHorizontalGroup(
+            exitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(exitLayout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(78, Short.MAX_VALUE))
+        );
+        exitLayout.setVerticalGroup(
+            exitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(exitLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -174,6 +231,10 @@ public class Client extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,7 +247,9 @@ public class Client extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
@@ -196,84 +259,117 @@ public class Client extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("First Name: ");
-        jPanel9.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 24, 78, 38));
+        jPanel9.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 0, 70, 20));
 
         firstName.setBackground(new java.awt.Color(255, 255, 255));
-        firstName.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        firstName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         firstName.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel9.add(firstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 17, 208, 52));
+        firstName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                firstNameKeyReleased(evt);
+            }
+        });
+        jPanel9.add(firstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 19, 280, 50));
 
         jLabel6.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Mid Name: ");
-        jPanel9.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 82, 78, 38));
+        jPanel9.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 70, 70, 20));
 
         midName.setBackground(new java.awt.Color(255, 255, 255));
-        midName.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        midName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         midName.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel9.add(midName, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 75, 208, 52));
+        midName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                midNameKeyReleased(evt);
+            }
+        });
+        jPanel9.add(midName, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 87, 280, 50));
 
         jLabel7.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Last Name: ");
-        jPanel9.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 140, 78, 38));
+        jPanel9.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 140, 70, 20));
 
         lastName.setBackground(new java.awt.Color(255, 255, 255));
-        lastName.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        lastName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lastName.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel9.add(lastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 133, 208, 52));
+        lastName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                lastNameKeyReleased(evt);
+            }
+        });
+        jPanel9.add(lastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 280, 50));
 
         jLabel8.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Address :");
-        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 225, 78, -1));
+        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 210, 70, 20));
+
+        address.setBackground(new java.awt.Color(255, 255, 255));
+        address.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        address.setForeground(new java.awt.Color(0, 0, 0));
+        address.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressActionPerformed(evt);
+            }
+        });
+        address.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                addressKeyReleased(evt);
+            }
+        });
+        jPanel9.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 280, 80));
 
         jLabel9.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Gender :");
-        jPanel9.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 267, 78, 38));
-
-        email.setBackground(new java.awt.Color(255, 255, 255));
-        email.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
-        email.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel9.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 197, 208, 52));
-
-        jLabel10.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Email");
-        jPanel9.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 203, 78, -1));
+        jPanel9.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 78, 38));
 
         gender.setBackground(new java.awt.Color(255, 255, 255));
         gender.setForeground(new java.awt.Color(0, 0, 51));
         gender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
-        jPanel9.add(gender, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 267, 78, 38));
+        jPanel9.add(gender, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, 78, 38));
 
-        btnClear.setBackground(new java.awt.Color(0, 0, 51));
-        btnClear.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
-        btnClear.setForeground(new java.awt.Color(255, 255, 255));
-        btnClear.setLabel("CLEAR");
-        btnClear.addActionListener(new java.awt.event.ActionListener() {
+        Clear.setBackground(new java.awt.Color(0, 0, 51));
+        Clear.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
+        Clear.setForeground(new java.awt.Color(255, 255, 255));
+        Clear.setLabel("CLEAR");
+        Clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearActionPerformed(evt);
+                ClearActionPerformed(evt);
             }
         });
-        jPanel9.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(182, 267, 116, 39));
+        jPanel9.add(Clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 320, 116, 39));
 
-        btnAdd.setBackground(new java.awt.Color(0, 0, 51));
-        btnAdd.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
-        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdd.setLabel("ADD");
-        jPanel9.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, 210, 37));
+        btnSave.setBackground(new java.awt.Color(0, 0, 51));
+        btnSave.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
+        btnSave.setForeground(new java.awt.Color(255, 255, 255));
+        btnSave.setLabel("ADD");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, 210, 37));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(jTable1);
+        JTABLE.setBackground(new java.awt.Color(255, 255, 255));
+        JTABLE.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Client ID", "First Name", "Middle Name", "Last Name", "Address", "Gender"
+            }
+        ));
+        JTABLE.setToolTipText("");
+        jScrollPane1.setViewportView(JTABLE);
 
         scrollPane1.add(jScrollPane1);
 
@@ -336,7 +432,7 @@ public class Client extends javax.swing.JFrame {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(jLabel11)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(206, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -375,17 +471,18 @@ public class Client extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(81, 81, 81)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -404,13 +501,55 @@ public class Client extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6ActionPerformed
 
-    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+    private void exit(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exit
         // TODO add your handling code here:
-        
-        
-        
-        
-    }//GEN-LAST:event_btnClearActionPerformed
+        int a = JOptionPane.showConfirmDialog(null, "Do you really want to close application?", "Select", JOptionPane.YES_NO_OPTION);
+        if(a == 0){
+            System.exit(0);
+        }
+    }//GEN-LAST:event_exit
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        Client client = new Client();
+        client.setfName(firstName.getText());
+        client.setmName(midName.getText());
+        client.setlName(lastName.getText());
+        client.setaddress(address.getText());
+        client.setGender((String) gender.getSelectedItem());
+        ClientDB.save(client);
+        Clear();
+                
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void ClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearActionPerformed
+        // TODO add your handling code here:
+        Clear();
+    }//GEN-LAST:event_ClearActionPerformed
+
+    private void firstNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_firstNameKeyReleased
+        // TODO add your handling code here:
+        validateFields();
+    }//GEN-LAST:event_firstNameKeyReleased
+
+    private void midNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_midNameKeyReleased
+        // TODO add your handling code here:
+         validateFields();
+    }//GEN-LAST:event_midNameKeyReleased
+
+    private void lastNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lastNameKeyReleased
+        // TODO add your handling code here:
+         validateFields();
+    }//GEN-LAST:event_lastNameKeyReleased
+
+    private void addressKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addressKeyReleased
+        // TODO add your handling code here:
+         validateFields();
+    }//GEN-LAST:event_addressKeyReleased
+
+    private void addressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addressActionPerformed
 
     /**
      * @param args the command line arguments
@@ -442,17 +581,19 @@ public class Client extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Client().setVisible(true);
+                new ClientUI().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Button btnAdd;
-    private java.awt.Button btnClear;
+    private java.awt.Button Clear;
+    private javax.swing.JTable JTABLE;
+    private javax.swing.JTextField address;
     private java.awt.Button btnDelete;
+    private java.awt.Button btnSave;
     private java.awt.Button btnUpdate;
-    private javax.swing.JTextField email;
+    private javax.swing.JPanel exit;
     private javax.swing.JTextField firstName;
     private javax.swing.JComboBox<String> gender;
     private javax.swing.JLabel jLabel1;
@@ -476,7 +617,6 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField lastName;
     private javax.swing.JTextField midName;

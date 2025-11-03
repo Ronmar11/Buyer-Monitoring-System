@@ -13,7 +13,8 @@ import javax.swing.JOptionPane;
 public class Tables {
        public static void main(String[] args) {
            try {
-               String clientTable = "create table client(clientID int AUTO_INCREMENT PRIMARY KEY, fName varchar(50), mName varchar(50), lName varchar(50), )";
+               String clientTable = "create table client(clientID int AUTO_INCREMENT primary key, fName varchar(50), mName varchar(50), lName varchar(50), address varchar(50), gender varchar(50))";
+               DbOperations.setDataOrDelete(clientTable, "Client Table Created Successfully!");
            } catch (Exception e) {
                JOptionPane.showMessageDialog(null, e);
            }
