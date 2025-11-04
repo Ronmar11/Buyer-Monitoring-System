@@ -5,45 +5,39 @@
 package UI;
 
 import javax.swing.JOptionPane;
-import Information.Product;
-import DB.ProductDB;
+import Information.Client;
+import DB.ClientDB;
 
 /**
  *
  * @author Ronmar abalos
  */
-public class ProductUI extends javax.swing.JFrame {
+public class TransactionUI extends javax.swing.JFrame {
 
     /**
      * Creates new form Client
      */
-    public ProductUI() {
+    public TransactionUI() {
         initComponents();
         btnSave.setEnabled(false);
+        
     }
     public void Clear(){
-    txtName.setText("");
-    txtCode.setText("");
-    txtProduct.setText("");
-    txtCategory.setText("");
+    txtbuyID.setText("");
+    txtQuantityTransaction.setText("");
+    txtPriceTransaction.setText("");
     btnSave.setEnabled(false);
+    
     }
    
     public void validateFields(){
-    String Name = txtName.getText();
-    String code = txtCode.getText();
-    String product = txtProduct.getText();
-    String category = txtCategory.getText();
-    if(!Name.equals("") && !code.equals("") && !product.equals("") && !category.equals("")){
-        btnSave.setEnabled(true);
-    } else{
-        btnSave.setEnabled(false);
-    }
-    
+  
     }
     
     
     
+    
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,16 +60,19 @@ public class ProductUI extends javax.swing.JFrame {
         exit = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        jpane = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtCode = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtProduct = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        txtCategory = new javax.swing.JTextField();
-        Clear = new java.awt.Button();
+        jLabel9 = new javax.swing.JLabel();
+        txtClientTransaction = new javax.swing.JComboBox<>();
+        txtProductTransaction = new javax.swing.JComboBox<>();
+        txtQuantityTransaction = new javax.swing.JTextField();
+        txtPriceTransaction = new javax.swing.JTextField();
         btnSave = new java.awt.Button();
+        jLabel12 = new javax.swing.JLabel();
+        txtbuyID = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanel7 = new javax.swing.JPanel();
         scrollPane1 = new java.awt.ScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -94,7 +91,6 @@ public class ProductUI extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 51));
 
-        jLabel1.setBackground(new java.awt.Color(0, 0, 51));
         jLabel1.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -122,12 +118,17 @@ public class ProductUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel4.setBackground(new java.awt.Color(0, 255, 255));
+        jPanel4.setBackground(new java.awt.Color(0, 0, 51));
 
         jLabel2.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("PRODUCT");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -146,17 +147,13 @@ public class ProductUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel5.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel5.setBackground(new java.awt.Color(0, 255, 255));
 
+        jLabel3.setBackground(new java.awt.Color(102, 255, 255));
         jLabel3.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setForeground(new java.awt.Color(0, 0, 51));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("TRANSACTION");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -263,85 +260,68 @@ public class ProductUI extends javax.swing.JFrame {
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jpane.setBackground(new java.awt.Color(0, 0, 51));
-        jpane.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
-        jpane.setForeground(new java.awt.Color(0, 0, 0));
-        jpane.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jpane.setText("Product Name: ");
-        jPanel9.add(jpane, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 0, 80, 20));
+        jLabel5.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("buyID");
+        jPanel9.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 40, -1));
 
-        txtName.setBackground(new java.awt.Color(255, 255, 255));
-        txtName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        txtName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtNameKeyReleased(evt);
-            }
-        });
-        jPanel9.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 19, 280, 50));
-
-        jLabel6.setBackground(new java.awt.Color(0, 0, 51));
         jLabel6.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel6.setText("Code");
-        jPanel9.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 70, 70, 20));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Product");
+        jPanel9.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 50, -1));
 
-        txtCode.setBackground(new java.awt.Color(255, 255, 255));
-        txtCode.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        txtCode.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtCodeKeyReleased(evt);
-            }
-        });
-        jPanel9.add(txtCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 87, 280, 50));
-
-        jLabel7.setBackground(new java.awt.Color(0, 0, 51));
         jLabel7.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel7.setText("Product");
-        jPanel9.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 140, 70, 20));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Quantity:");
+        jPanel9.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 60, 20));
 
-        txtProduct.setBackground(new java.awt.Color(255, 255, 255));
-        txtProduct.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        txtProduct.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtProductKeyReleased(evt);
-            }
-        });
-        jPanel9.add(txtProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 280, 50));
-
-        jLabel8.setBackground(new java.awt.Color(0, 0, 51));
         jLabel8.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel8.setText("Category");
-        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 210, 70, 20));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("Price :");
+        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 50, 20));
 
-        txtCategory.setBackground(new java.awt.Color(255, 255, 255));
-        txtCategory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        txtCategory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCategoryActionPerformed(evt);
-            }
-        });
-        txtCategory.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtCategoryKeyReleased(evt);
-            }
-        });
-        jPanel9.add(txtCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 280, 50));
+        jLabel9.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Date:");
+        jPanel9.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 30, 30));
 
-        Clear.setBackground(new java.awt.Color(0, 0, 51));
-        Clear.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
-        Clear.setForeground(new java.awt.Color(255, 255, 255));
-        Clear.setLabel("CLEAR");
-        Clear.addActionListener(new java.awt.event.ActionListener() {
+        txtClientTransaction.setBackground(new java.awt.Color(255, 255, 255));
+        txtClientTransaction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClearActionPerformed(evt);
+                txtClientTransactionActionPerformed(evt);
             }
         });
-        jPanel9.add(Clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 280, 39));
+        jPanel9.add(txtClientTransaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 230, 30));
+
+        txtProductTransaction.setBackground(new java.awt.Color(255, 255, 255));
+        txtProductTransaction.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        txtProductTransaction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtProductTransactionActionPerformed(evt);
+            }
+        });
+        jPanel9.add(txtProductTransaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 230, 30));
+
+        txtQuantityTransaction.setBackground(new java.awt.Color(255, 255, 255));
+        txtQuantityTransaction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtQuantityTransactionActionPerformed(evt);
+            }
+        });
+        jPanel9.add(txtQuantityTransaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 230, 30));
+
+        txtPriceTransaction.setBackground(new java.awt.Color(255, 255, 255));
+        txtPriceTransaction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPriceTransactionActionPerformed(evt);
+            }
+        });
+        jPanel9.add(txtPriceTransaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 230, 30));
 
         btnSave.setBackground(new java.awt.Color(0, 0, 51));
         btnSave.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -352,7 +332,24 @@ public class ProductUI extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 280, 37));
+        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 210, 37));
+
+        jLabel12.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("Client");
+        jPanel9.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 40, -1));
+
+        txtbuyID.setBackground(new java.awt.Color(255, 255, 255));
+        txtbuyID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuyIDActionPerformed(evt);
+            }
+        });
+        jPanel9.add(txtbuyID, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 230, 30));
+
+        jDateChooser1.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel9.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 100, -1));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -362,17 +359,9 @@ public class ProductUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Product ID", "Name", "Code", "Category"
+                "BuyID", "Client Name", "Product Name", "Quantity", "Price", "Date"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         JTABLE.setToolTipText("");
         jScrollPane1.setViewportView(JTABLE);
 
@@ -396,7 +385,7 @@ public class ProductUI extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("ENTER THE PRODUCT ID  YOU WANT TO UPDATE OR DELETE");
+        jLabel11.setText("ENTER THE ID  YOU WANT TO UPDATE OR DELETE");
 
         jTextField6.setBackground(new java.awt.Color(255, 255, 255));
         jTextField6.setForeground(new java.awt.Color(0, 0, 51));
@@ -475,8 +464,8 @@ public class ProductUI extends javax.swing.JFrame {
                 .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(81, 81, 81)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(82, 82, 82)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -484,9 +473,10 @@ public class ProductUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 32, Short.MAX_VALUE))
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -513,61 +503,46 @@ public class ProductUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_exit
 
+    private void txtClientTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClientTransactionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClientTransactionActionPerformed
+
+    private void txtProductTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductTransactionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtProductTransactionActionPerformed
+
+    private void txtPriceTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceTransactionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPriceTransactionActionPerformed
+
+    private void txtQuantityTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantityTransactionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtQuantityTransactionActionPerformed
+
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-        Product product = new Product();
-        product.setName(txtName.getText());
-        product.setCode(txtCode.getText());
-        product.setProduct(txtProduct.getText());
-        product.setCategory(txtCategory.getText());
-        ProductDB.save(product);
-        Clear();
-                
+
+
     }//GEN-LAST:event_btnSaveActionPerformed
 
-    private void ClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearActionPerformed
+    private void txtbuyIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuyIDActionPerformed
         // TODO add your handling code here:
-        Clear();
-    }//GEN-LAST:event_ClearActionPerformed
+    }//GEN-LAST:event_txtbuyIDActionPerformed
 
-    private void txtNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameKeyReleased
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         // TODO add your handling code here:
-        validateFields();
-    }//GEN-LAST:event_txtNameKeyReleased
-
-    private void txtCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeKeyReleased
-        // TODO add your handling code here:
-         validateFields();
-    }//GEN-LAST:event_txtCodeKeyReleased
-
-    private void txtProductKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProductKeyReleased
-        // TODO add your handling code here:
-         validateFields();
-    }//GEN-LAST:event_txtProductKeyReleased
-
-    private void txtCategoryKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCategoryKeyReleased
-        // TODO add your handling code here:
-         validateFields();
-    }//GEN-LAST:event_txtCategoryKeyReleased
-
-    private void txtCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoryActionPerformed
-        // TODO add your handling code here:
-        validateFields();
-    }//GEN-LAST:event_txtCategoryActionPerformed
+         ProductUI productUI = new ProductUI();
+        productUI.setVisible(true);
+        TransactionUI.this.setVisible(false);
+        
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
-        ClientUI clientUI = new ClientUI();
+         ClientUI clientUI = new ClientUI();
         clientUI.setVisible(true);
-        ProductUI.this.setVisible(false);
+        TransactionUI.this.setVisible(false);
     }//GEN-LAST:event_jLabel1MouseClicked
-
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        // TODO add your handling code here:
-        TransactionUI transactionUI = new TransactionUI();
-        transactionUI.setVisible(true);
-        ProductUI.this.setVisible(false);
-    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -586,40 +561,43 @@ public class ProductUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TransactionUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TransactionUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TransactionUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TransactionUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProductUI().setVisible(true);
+                new TransactionUI().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Button Clear;
     private javax.swing.JTable JTABLE;
     private java.awt.Button btnDelete;
     private java.awt.Button btnSave;
     private java.awt.Button btnUpdate;
     private javax.swing.JPanel exit;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -631,11 +609,11 @@ public class ProductUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField6;
-    private javax.swing.JLabel jpane;
     private java.awt.ScrollPane scrollPane1;
-    private javax.swing.JTextField txtCategory;
-    private javax.swing.JTextField txtCode;
-    private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtProduct;
+    private javax.swing.JComboBox<String> txtClientTransaction;
+    private javax.swing.JTextField txtPriceTransaction;
+    private javax.swing.JComboBox<String> txtProductTransaction;
+    private javax.swing.JTextField txtQuantityTransaction;
+    private javax.swing.JTextField txtbuyID;
     // End of variables declaration//GEN-END:variables
 }
