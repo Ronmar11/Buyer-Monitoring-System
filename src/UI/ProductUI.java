@@ -5,40 +5,31 @@
 package UI;
 
 import javax.swing.JOptionPane;
-import Information.Client;
-import DB.ClientDB;
+import Information.Product;
+import DB.ProductDB;
 
 /**
  *
  * @author Ronmar abalos
  */
-public class ClientUI extends javax.swing.JFrame {
+public class ProductUI extends javax.swing.JFrame {
 
     /**
      * Creates new form Client
      */
-    public ClientUI() {
+    public ProductUI() {
         initComponents();
         btnSave.setEnabled(false);
     }
     public void Clear(){
-    firstName.setText("");
-    midName.setText("");
-    lastName.setText("");
-    address.setText("");
+    txtName.setText("");
+    txtCode.setText("");
+    txtProduct.setText("");
+    txtCategory.setText("");
     btnSave.setEnabled(false);
     }
    
     public void validateFields(){
-    String Fname = firstName.getText();
-    String Mname = midName.getText();
-    String Lname = lastName.getText();
-    String Address = address.getText();
-    if(!Fname.equals("") && !Mname.equals("") && !Lname.equals("") && !Address.equals("")){
-        btnSave.setEnabled(true);
-    } else{
-        btnSave.setEnabled(false);
-    }
     
     }
     
@@ -66,16 +57,14 @@ public class ClientUI extends javax.swing.JFrame {
         exit = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        firstName = new javax.swing.JTextField();
+        jpane = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        midName = new javax.swing.JTextField();
+        txtCode = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        lastName = new javax.swing.JTextField();
+        txtProduct = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        address = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        gender = new javax.swing.JComboBox<>();
+        txtCategory = new javax.swing.JTextField();
         Clear = new java.awt.Button();
         btnSave = new java.awt.Button();
         jPanel7 = new javax.swing.JPanel();
@@ -89,18 +78,23 @@ public class ClientUI extends javax.swing.JFrame {
         btnDelete = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1100, 550));
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 51));
 
-        jPanel3.setBackground(new java.awt.Color(0, 255, 255));
+        jPanel3.setBackground(new java.awt.Color(0, 0, 51));
 
+        jLabel1.setBackground(new java.awt.Color(0, 0, 51));
         jLabel1.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("CLIENT");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -119,17 +113,12 @@ public class ClientUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel4.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel4.setBackground(new java.awt.Color(0, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setForeground(new java.awt.Color(0, 0, 51));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("PRODUCT");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -260,85 +249,66 @@ public class ClientUI extends javax.swing.JFrame {
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("First Name: ");
-        jPanel9.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 0, 70, 20));
+        jpane.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        jpane.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jpane.setText("Name: ");
+        jPanel9.add(jpane, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 0, 70, 20));
 
-        firstName.setBackground(new java.awt.Color(255, 255, 255));
-        firstName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        firstName.setForeground(new java.awt.Color(0, 0, 0));
-        firstName.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtName.setBackground(new java.awt.Color(255, 255, 255));
+        txtName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                firstNameKeyReleased(evt);
+                txtNameKeyReleased(evt);
             }
         });
-        jPanel9.add(firstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 19, 280, 50));
+        jPanel9.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 19, 280, 50));
 
         jLabel6.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Mid Name: ");
+        jLabel6.setText("Code");
         jPanel9.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 70, 70, 20));
 
-        midName.setBackground(new java.awt.Color(255, 255, 255));
-        midName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        midName.setForeground(new java.awt.Color(0, 0, 0));
-        midName.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtCode.setBackground(new java.awt.Color(255, 255, 255));
+        txtCode.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtCode.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                midNameKeyReleased(evt);
+                txtCodeKeyReleased(evt);
             }
         });
-        jPanel9.add(midName, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 87, 280, 50));
+        jPanel9.add(txtCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 87, 280, 50));
 
         jLabel7.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Last Name: ");
+        jLabel7.setText("Product");
         jPanel9.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 140, 70, 20));
 
-        lastName.setBackground(new java.awt.Color(255, 255, 255));
-        lastName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        lastName.setForeground(new java.awt.Color(0, 0, 0));
-        lastName.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtProduct.setBackground(new java.awt.Color(255, 255, 255));
+        txtProduct.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtProduct.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                lastNameKeyReleased(evt);
+                txtProductKeyReleased(evt);
             }
         });
-        jPanel9.add(lastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 280, 50));
+        jPanel9.add(txtProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 280, 50));
 
         jLabel8.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Address :");
+        jLabel8.setText("Category");
         jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 210, 70, 20));
 
-        address.setBackground(new java.awt.Color(255, 255, 255));
-        address.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        address.setForeground(new java.awt.Color(0, 0, 0));
-        address.addActionListener(new java.awt.event.ActionListener() {
+        txtCategory.setBackground(new java.awt.Color(255, 255, 255));
+        txtCategory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addressActionPerformed(evt);
+                txtCategoryActionPerformed(evt);
             }
         });
-        address.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtCategory.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                addressKeyReleased(evt);
+                txtCategoryKeyReleased(evt);
             }
         });
-        jPanel9.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 280, 80));
-
-        jLabel9.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Gender :");
-        jPanel9.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 78, 38));
-
-        gender.setBackground(new java.awt.Color(255, 255, 255));
-        gender.setForeground(new java.awt.Color(0, 0, 51));
-        gender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
-        jPanel9.add(gender, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, 78, 38));
+        jPanel9.add(txtCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 280, 50));
 
         Clear.setBackground(new java.awt.Color(0, 0, 51));
         Clear.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -349,7 +319,7 @@ public class ClientUI extends javax.swing.JFrame {
                 ClearActionPerformed(evt);
             }
         });
-        jPanel9.add(Clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 320, 116, 39));
+        jPanel9.add(Clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 280, 39));
 
         btnSave.setBackground(new java.awt.Color(0, 0, 51));
         btnSave.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -360,7 +330,7 @@ public class ClientUI extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, 210, 37));
+        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 280, 37));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -370,9 +340,17 @@ public class ClientUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Client ID", "First Name", "Middle Name", "Last Name", "Address", "Gender"
+                "Product ID", "Name", "Code", "Category"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         JTABLE.setToolTipText("");
         jScrollPane1.setViewportView(JTABLE);
 
@@ -396,7 +374,7 @@ public class ClientUI extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("ENTER THE ID  YOU WANT TO UPDATE OR DELETE");
+        jLabel11.setText("ENTER THE PRODUCT ID  YOU WANT TO UPDATE OR DELETE");
 
         jTextField6.setBackground(new java.awt.Color(255, 255, 255));
         jTextField6.setForeground(new java.awt.Color(0, 0, 51));
@@ -484,10 +462,9 @@ public class ClientUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addGap(0, 32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -516,13 +493,12 @@ public class ClientUI extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-        Client client = new Client();
-        client.setfName(firstName.getText());
-        client.setmName(midName.getText());
-        client.setlName(lastName.getText());
-        client.setaddress(address.getText());
-        client.setGender((String) gender.getSelectedItem());
-        ClientDB.save(client);
+        Product product = new Product();
+        product.setName(txtName.getText());
+        product.setCode(txtCode.getText());
+        product.setProduct(txtProduct.getText());
+        product.setCategory(txtCategory.getText());
+        ProductDB.save(product);
         Clear();
                 
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -532,37 +508,36 @@ public class ClientUI extends javax.swing.JFrame {
         Clear();
     }//GEN-LAST:event_ClearActionPerformed
 
-    private void firstNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_firstNameKeyReleased
+    private void txtNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameKeyReleased
         // TODO add your handling code here:
         validateFields();
-    }//GEN-LAST:event_firstNameKeyReleased
+    }//GEN-LAST:event_txtNameKeyReleased
 
-    private void midNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_midNameKeyReleased
+    private void txtCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeKeyReleased
         // TODO add your handling code here:
          validateFields();
-    }//GEN-LAST:event_midNameKeyReleased
+    }//GEN-LAST:event_txtCodeKeyReleased
 
-    private void lastNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lastNameKeyReleased
+    private void txtProductKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProductKeyReleased
         // TODO add your handling code here:
          validateFields();
-    }//GEN-LAST:event_lastNameKeyReleased
+    }//GEN-LAST:event_txtProductKeyReleased
 
-    private void addressKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addressKeyReleased
+    private void txtCategoryKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCategoryKeyReleased
         // TODO add your handling code here:
          validateFields();
-    }//GEN-LAST:event_addressKeyReleased
+    }//GEN-LAST:event_txtCategoryKeyReleased
 
-    private void addressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressActionPerformed
+    private void txtCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoryActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addressActionPerformed
+    }//GEN-LAST:event_txtCategoryActionPerformed
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
-        ProductUI productUI = new ProductUI();
-        productUI.setVisible(true);
-        ClientUI.this.setVisible(false);
-        
-    }//GEN-LAST:event_jLabel2MouseClicked
+        ClientUI clientUI = new ClientUI();
+        clientUI.setVisible(true);
+        ProductUI.this.setVisible(false);
+    }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -581,20 +556,20 @@ public class ClientUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClientUI().setVisible(true);
+                new ProductUI().setVisible(true);
             }
         });
     }
@@ -602,24 +577,19 @@ public class ClientUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button Clear;
     private javax.swing.JTable JTABLE;
-    private javax.swing.JTextField address;
     private java.awt.Button btnDelete;
     private java.awt.Button btnSave;
     private java.awt.Button btnUpdate;
     private javax.swing.JPanel exit;
-    private javax.swing.JTextField firstName;
-    private javax.swing.JComboBox<String> gender;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -631,8 +601,11 @@ public class ClientUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField lastName;
-    private javax.swing.JTextField midName;
+    private javax.swing.JLabel jpane;
     private java.awt.ScrollPane scrollPane1;
+    private javax.swing.JTextField txtCategory;
+    private javax.swing.JTextField txtCode;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtProduct;
     // End of variables declaration//GEN-END:variables
 }
