@@ -7,6 +7,12 @@ package UI;
 import javax.swing.JOptionPane;
 import Information.Client;
 import DB.ClientDB;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +26,13 @@ public class ClientUI extends javax.swing.JFrame {
     public ClientUI() {
         initComponents();
         btnSave.setEnabled(false);
+        loadClientData();
+        
+    DefaultTableCellRenderer CenterAlign = new DefaultTableCellRenderer();
+    CenterAlign.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    for (int i = 0; i < JTABLE.getColumnCount(); i++) {
+    JTABLE.getColumnModel().getColumn(i).setCellRenderer(CenterAlign);
+}
     }
     public void Clear(){
     firstName.setText("");
@@ -41,6 +54,34 @@ public class ClientUI extends javax.swing.JFrame {
     }
     
     }
+    
+    private void loadClientData() {
+    DefaultTableModel model = (DefaultTableModel) JTABLE.getModel();
+    model.setRowCount(0); 
+
+    try (Connection con = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/bms", "root", "rrabalos");
+         Statement stmt = con.createStatement();
+         ResultSet rs = stmt.executeQuery("SELECT * FROM client")) {
+
+        while (rs.next()) {
+            String id = rs.getString("clientID");
+            String fname = rs.getString("fName");
+            String mname = rs.getString("mName");
+            String  lname = rs.getString("lName");
+            String  address = rs.getString("address");
+            String  gender = rs.getString("gender");
+            
+            model.addRow(new Object[]{id, fname, mname, lname, address, gender});
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Error loading branch data: " + e.getMessage(),
+                "Database Error",
+                JOptionPane.ERROR_MESSAGE);
+    }
+}
     
     
     
@@ -377,7 +418,15 @@ public class ClientUI extends javax.swing.JFrame {
             new String [] {
                 "Client ID", "First Name", "Middle Name", "Last Name", "Address", "Gender"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         JTABLE.setToolTipText("");
         jScrollPane1.setViewportView(JTABLE);
 
@@ -415,6 +464,11 @@ public class ClientUI extends javax.swing.JFrame {
         btnUpdate.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdate.setLabel("UPDATE");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setBackground(new java.awt.Color(0, 0, 51));
         btnDelete.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -505,6 +559,7 @@ public class ClientUI extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
+        loadClientData();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
@@ -529,6 +584,7 @@ public class ClientUI extends javax.swing.JFrame {
         client.setGender((String) gender.getSelectedItem());
         ClientDB.save(client);
         Clear();
+        loadClientData();
                 
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -575,6 +631,11 @@ public class ClientUI extends javax.swing.JFrame {
         transactionUI.setVisible(true);
         ClientUI.this.setVisible(false);
     }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        loadClientData();
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments

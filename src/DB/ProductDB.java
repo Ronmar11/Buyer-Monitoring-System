@@ -10,7 +10,7 @@ import Information.Product;
  */
 public class ProductDB {
      public static void save(Product product){
-    String query = "insert into product(txtName, txtCode, txtProduct, txtCategory) values('"+product.getName()+"', '"+product.getCode()+"', '"+product.getProduct()+"', '"+product.getCategory()+"')";
+    String query = "insert into product(txtName, txtCode, txtCategory) values('"+product.getpName()+"', '"+product.getCode()+"', '"+product.getCategory()+"')";
     DbOperations.setDataOrDelete(query, "Added Successfully!");
      }
 }

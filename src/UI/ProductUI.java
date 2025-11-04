@@ -7,6 +7,12 @@ package UI;
 import javax.swing.JOptionPane;
 import Information.Product;
 import DB.ProductDB;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,11 +26,17 @@ public class ProductUI extends javax.swing.JFrame {
     public ProductUI() {
         initComponents();
         btnSave.setEnabled(false);
+        loadClientData();
+        
+        DefaultTableCellRenderer CenterAlign = new DefaultTableCellRenderer();
+        CenterAlign.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        for (int i = 0; i < JTABLE.getColumnCount(); i++) {
+        JTABLE.getColumnModel().getColumn(i).setCellRenderer(CenterAlign);
+}
     }
     public void Clear(){
     txtName.setText("");
     txtCode.setText("");
-    txtProduct.setText("");
     txtCategory.setText("");
     btnSave.setEnabled(false);
     }
@@ -32,15 +44,39 @@ public class ProductUI extends javax.swing.JFrame {
     public void validateFields(){
     String Name = txtName.getText();
     String code = txtCode.getText();
-    String product = txtProduct.getText();
     String category = txtCategory.getText();
-    if(!Name.equals("") && !code.equals("") && !product.equals("") && !category.equals("")){
+    if(!Name.equals("") && !code.equals("") && !category.equals("")){
         btnSave.setEnabled(true);
     } else{
         btnSave.setEnabled(false);
     }
     
     }
+      private void loadClientData() {
+    DefaultTableModel model = (DefaultTableModel) JTABLE.getModel();
+    model.setRowCount(0); 
+
+    try (Connection con = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/bms", "root", "rrabalos");
+         Statement stmt = con.createStatement();
+         ResultSet rs = stmt.executeQuery("SELECT * FROM product")) {
+
+        while (rs.next()) {
+            String prodID = rs.getString("productID");
+            String pname = rs.getString("txtName");
+            String code = rs.getString("txtCode");
+            String category = rs.getString("txtCategory");
+            
+            model.addRow(new Object[]{ prodID, pname, code, category});
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Error loading branch data: " + e.getMessage(),
+                "Database Error",
+                JOptionPane.ERROR_MESSAGE);
+    }
+}
     
     
     
@@ -70,8 +106,6 @@ public class ProductUI extends javax.swing.JFrame {
         txtName = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtCode = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        txtProduct = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtCategory = new javax.swing.JTextField();
         Clear = new java.awt.Button();
@@ -295,28 +329,12 @@ public class ProductUI extends javax.swing.JFrame {
         });
         jPanel9.add(txtCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 87, 280, 50));
 
-        jLabel7.setBackground(new java.awt.Color(0, 0, 51));
-        jLabel7.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel7.setText("Product");
-        jPanel9.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 140, 70, 20));
-
-        txtProduct.setBackground(new java.awt.Color(255, 255, 255));
-        txtProduct.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        txtProduct.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtProductKeyReleased(evt);
-            }
-        });
-        jPanel9.add(txtProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 280, 50));
-
         jLabel8.setBackground(new java.awt.Color(0, 0, 51));
         jLabel8.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("Category");
-        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 210, 70, 20));
+        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 70, 20));
 
         txtCategory.setBackground(new java.awt.Color(255, 255, 255));
         txtCategory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -330,7 +348,7 @@ public class ProductUI extends javax.swing.JFrame {
                 txtCategoryKeyReleased(evt);
             }
         });
-        jPanel9.add(txtCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 280, 50));
+        jPanel9.add(txtCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 280, 50));
 
         Clear.setBackground(new java.awt.Color(0, 0, 51));
         Clear.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -341,7 +359,7 @@ public class ProductUI extends javax.swing.JFrame {
                 ClearActionPerformed(evt);
             }
         });
-        jPanel9.add(Clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 280, 39));
+        jPanel9.add(Clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 280, 39));
 
         btnSave.setBackground(new java.awt.Color(0, 0, 51));
         btnSave.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -352,7 +370,7 @@ public class ProductUI extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 280, 37));
+        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 280, 37));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -410,6 +428,11 @@ public class ProductUI extends javax.swing.JFrame {
         btnUpdate.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
         btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
         btnUpdate.setLabel("UPDATE");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setBackground(new java.awt.Color(0, 0, 51));
         btnDelete.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -468,15 +491,15 @@ public class ProductUI extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(81, 81, 81)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -499,6 +522,7 @@ public class ProductUI extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
+        loadClientData();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
@@ -518,10 +542,10 @@ public class ProductUI extends javax.swing.JFrame {
         Product product = new Product();
         product.setName(txtName.getText());
         product.setCode(txtCode.getText());
-        product.setProduct(txtProduct.getText());
         product.setCategory(txtCategory.getText());
         ProductDB.save(product);
         Clear();
+        loadClientData();
                 
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -539,11 +563,6 @@ public class ProductUI extends javax.swing.JFrame {
         // TODO add your handling code here:
          validateFields();
     }//GEN-LAST:event_txtCodeKeyReleased
-
-    private void txtProductKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProductKeyReleased
-        // TODO add your handling code here:
-         validateFields();
-    }//GEN-LAST:event_txtProductKeyReleased
 
     private void txtCategoryKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCategoryKeyReleased
         // TODO add your handling code here:
@@ -568,6 +587,11 @@ public class ProductUI extends javax.swing.JFrame {
         transactionUI.setVisible(true);
         ProductUI.this.setVisible(false);
     }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        loadClientData();
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -618,7 +642,6 @@ public class ProductUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -636,6 +659,5 @@ public class ProductUI extends javax.swing.JFrame {
     private javax.swing.JTextField txtCategory;
     private javax.swing.JTextField txtCode;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtProduct;
     // End of variables declaration//GEN-END:variables
 }

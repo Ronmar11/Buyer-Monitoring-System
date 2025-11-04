@@ -9,18 +9,23 @@ package Information;
  * @author Ronmar abalos
  */
 public class Product {
-    
-    private String name;
-    private String code;
-    private String product;
-    private String category;
 
-    public String getName() {
-        return name;
+   
+    private int productID;
+    private String pname;
+    private String code;
+    private String category;
+    
+    public int getProductID() {
+        return productID;
+    }
+
+    public String getpName() {
+        return pname;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.pname = name;
     }
 
     public String getCode() {
@@ -29,14 +34,6 @@ public class Product {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
     }
 
     public String getCategory() {
