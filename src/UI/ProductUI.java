@@ -43,6 +43,7 @@ public class ProductUI extends javax.swing.JFrame {
     txtCategory.setText("");
     btnSave.setEnabled(false);
     }
+    
     public void validateFields(){
     String Name = txtName.getText();
     String code = txtCode.getText();
@@ -54,6 +55,7 @@ public class ProductUI extends javax.swing.JFrame {
     }
     
     }
+    
       private void loadClientData() {
     DefaultTableModel model = (DefaultTableModel) JTABLE.getModel();
     model.setRowCount(0); 
@@ -74,7 +76,7 @@ public class ProductUI extends javax.swing.JFrame {
 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this,
-                "Error loading branch data: " + e.getMessage(),
+                "Error loading Product data: " + e.getMessage(),
                 "Database Error",
                 JOptionPane.ERROR_MESSAGE);
     }

@@ -4,23 +4,25 @@
  */
 package Information;
 
+import java.util.Date;
+
 /**
  *
  * @author Ronmar abalos
  */
 public class Transaction {
-   private int buyID;
+   private String buyID;
    private int Price;
    private int Quantity;
    private String clientName;
    private String productName;
    private String Date;
 
-    public int getBuyID() {
+    public String getBuyID() {
         return buyID;
     }
 
-    public void setBuyID(int buyID) {
+    public void setBuyID(String buyID) {
         this.buyID = buyID;
     }
 
@@ -62,6 +64,10 @@ public class Transaction {
     
     public void setDate(String Date){
         this.Date = Date;
+    }
+
+    public void setData(Date date) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
  
 }
