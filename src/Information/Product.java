@@ -10,14 +10,18 @@ package Information;
  */
 public class Product {
 
-   
-    private int productID;
+    private String productID;
     private String pname;
     private String code;
     private String category;
     
-    public int getProductID() {
-        return productID;
+    
+    public String getProductID() {
+    return productID;
+    }
+
+    public void setProductID(String productID) {
+        this.productID = productID;
     }
 
     public String getpName() {

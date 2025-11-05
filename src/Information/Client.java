@@ -9,21 +9,22 @@ package Information;
  * @author Ronmar abalos
  */
 public class Client {
-   
-    private int clientID;
+
+    private String clientID;
     private String fName;
     private String mName;
     private String lName;
     private String address;
     private String gender;
-   
-    public void setclientID(int clientID) {
-        this.clientID = clientID;
-    }
-
-    public int getclientID(){
+    
+    public String getClientID() {
         return clientID;
     }
+
+    public void setClientID(String clientID) {
+        this.clientID = clientID;
+    }
+   
     public String getfName() {
         return fName;
     }

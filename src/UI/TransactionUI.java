@@ -7,6 +7,11 @@ package UI;
 import javax.swing.JOptionPane;
 import Information.Client;
 import DB.ClientDB;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import DB.ConnectionProvider;
 
 /**
  *
@@ -21,6 +26,9 @@ public class TransactionUI extends javax.swing.JFrame {
         initComponents();
         btnSave.setEnabled(false);
         
+        loadClients();
+        loadProducts();
+        
     }
     public void Clear(){
     txtbuyID.setText("");
@@ -34,7 +42,45 @@ public class TransactionUI extends javax.swing.JFrame {
   
     }
     
-    
+ 
+public void loadClients() {
+    try {
+        Connection con = ConnectionProvider.getCon();
+        Statement st = con.createStatement();
+        
+        ResultSet rs = st.executeQuery("SELECT clientID, CONCAT(fName, ' ', mName, ' ', lName) as FullName FROM client");
+        
+        txtClientTransaction.removeAllItems(); 
+        while (rs.next()) {
+            
+            txtClientTransaction.addItem(rs.getString("clientID") + " - " + rs.getString("fullName"));
+        }
+        
+        con.close();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error loading clients: " + e.getMessage());
+    }
+}
+
+public void loadProducts() {
+    try {
+        Connection con = ConnectionProvider.getCon();
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT productID, txtName FROM product");
+        
+        txtProductTransaction.removeAllItems();
+        while (rs.next()) {
+            
+            txtProductTransaction.addItem(rs.getString("productID") + " - " + rs.getString("txtName"));
+        }
+        
+        con.close();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error loading products: " + e.getMessage());
+    }
+}
+
+
     
     
  
@@ -72,7 +118,6 @@ public class TransactionUI extends javax.swing.JFrame {
         btnSave = new java.awt.Button();
         jLabel12 = new javax.swing.JLabel();
         txtbuyID = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanel7 = new javax.swing.JPanel();
         scrollPane1 = new java.awt.ScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -263,7 +308,7 @@ public class TransactionUI extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("buyID");
+        jLabel5.setText("BuyID");
         jPanel9.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 40, -1));
 
         jLabel6.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
@@ -347,9 +392,6 @@ public class TransactionUI extends javax.swing.JFrame {
             }
         });
         jPanel9.add(txtbuyID, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 230, 30));
-
-        jDateChooser1.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel9.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 100, -1));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -464,7 +506,7 @@ public class TransactionUI extends javax.swing.JFrame {
                 .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(82, 82, 82)
+                .addGap(17, 17, 17)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -476,7 +518,7 @@ public class TransactionUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -505,10 +547,12 @@ public class TransactionUI extends javax.swing.JFrame {
 
     private void txtClientTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClientTransactionActionPerformed
         // TODO add your handling code here:
+        loadClients();
     }//GEN-LAST:event_txtClientTransactionActionPerformed
 
     private void txtProductTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductTransactionActionPerformed
         // TODO add your handling code here:
+        loadProducts();
     }//GEN-LAST:event_txtProductTransactionActionPerformed
 
     private void txtPriceTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceTransactionActionPerformed
@@ -585,7 +629,6 @@ public class TransactionUI extends javax.swing.JFrame {
     private java.awt.Button btnSave;
     private java.awt.Button btnUpdate;
     private javax.swing.JPanel exit;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

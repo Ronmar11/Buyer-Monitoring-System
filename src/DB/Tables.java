@@ -13,14 +13,14 @@ import javax.swing.JOptionPane;
 public class Tables {
        public static void main(String[] args) {
            try {
-               String clientTable = "create table client(clientID int AUTO_INCREMENT primary key, fName varchar(50), mName varchar(50), lName varchar(50), address varchar(50), gender varchar(50))";
+               String clientTable = "create table client(clientID varchar(50) primary key, fName varchar(50), mName varchar(50), lName varchar(50), address varchar(50), gender varchar(50))";
                DbOperations.setDataOrDelete(clientTable, "Client Table Created Successfully!");
-               String productTable = "create table product(productID int AUTO_INCREMENT primary key, txtName varchar(50), txtCode varchar(50), txtCategory varchar(50))";
+               String productTable = "create table product(productID varchar(50) primary key, txtName varchar(50), txtCode varchar(50), txtCategory varchar(50))";
                DbOperations.setDataOrDelete(productTable, "Product Table Created Successfully!");
                String transactionTable = "CREATE TABLE transaction ("
-                      + "buyID INT AUTO_INCREMENT PRIMARY KEY, "
-                      + "clientID int, "
-                      + "productID int, "
+                      + "buyID varchar(50), "
+                      + "clientID varchar(50), "
+                      + "productID varchar(50), "
                       + "price DECIMAL(10,2), "
                       + "quantity INT, "
                       + "date DATE, "

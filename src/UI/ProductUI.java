@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -35,12 +37,12 @@ public class ProductUI extends javax.swing.JFrame {
 }
     }
     public void Clear(){
+    productID.setText("");
     txtName.setText("");
     txtCode.setText("");
     txtCategory.setText("");
     btnSave.setEnabled(false);
     }
-   
     public void validateFields(){
     String Name = txtName.getText();
     String code = txtCode.getText();
@@ -110,15 +112,15 @@ public class ProductUI extends javax.swing.JFrame {
         txtCategory = new javax.swing.JTextField();
         Clear = new java.awt.Button();
         btnSave = new java.awt.Button();
+        productID = new javax.swing.JTextField();
+        jpane1 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         scrollPane1 = new java.awt.ScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         JTABLE = new javax.swing.JTable();
-        jPanel8 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        btnUpdate = new java.awt.Button();
-        btnDelete = new java.awt.Button();
+        jPanel10 = new javax.swing.JPanel();
+        btnUpdate1 = new java.awt.Button();
+        btnDelete1 = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -302,7 +304,7 @@ public class ProductUI extends javax.swing.JFrame {
         jpane.setForeground(new java.awt.Color(0, 0, 0));
         jpane.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jpane.setText("Product Name: ");
-        jPanel9.add(jpane, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 0, 80, 20));
+        jPanel9.add(jpane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 80, 20));
 
         txtName.setBackground(new java.awt.Color(255, 255, 255));
         txtName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -311,14 +313,14 @@ public class ProductUI extends javax.swing.JFrame {
                 txtNameKeyReleased(evt);
             }
         });
-        jPanel9.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 19, 280, 50));
+        jPanel9.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 280, 50));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 51));
         jLabel6.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setText("Code");
-        jPanel9.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 70, 70, 20));
+        jPanel9.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 70, 20));
 
         txtCode.setBackground(new java.awt.Color(255, 255, 255));
         txtCode.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -327,14 +329,14 @@ public class ProductUI extends javax.swing.JFrame {
                 txtCodeKeyReleased(evt);
             }
         });
-        jPanel9.add(txtCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 87, 280, 50));
+        jPanel9.add(txtCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 280, 50));
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 51));
         jLabel8.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("Category");
-        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 70, 20));
+        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 70, 20));
 
         txtCategory.setBackground(new java.awt.Color(255, 255, 255));
         txtCategory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -348,7 +350,7 @@ public class ProductUI extends javax.swing.JFrame {
                 txtCategoryKeyReleased(evt);
             }
         });
-        jPanel9.add(txtCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 280, 50));
+        jPanel9.add(txtCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 280, 50));
 
         Clear.setBackground(new java.awt.Color(0, 0, 51));
         Clear.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -359,7 +361,7 @@ public class ProductUI extends javax.swing.JFrame {
                 ClearActionPerformed(evt);
             }
         });
-        jPanel9.add(Clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 280, 39));
+        jPanel9.add(Clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 280, 40));
 
         btnSave.setBackground(new java.awt.Color(0, 0, 51));
         btnSave.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -370,7 +372,28 @@ public class ProductUI extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 280, 37));
+        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 280, 40));
+
+        productID.setBackground(new java.awt.Color(255, 255, 255));
+        productID.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        productID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productIDActionPerformed(evt);
+            }
+        });
+        productID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                productIDKeyReleased(evt);
+            }
+        });
+        jPanel9.add(productID, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 280, 50));
+
+        jpane1.setBackground(new java.awt.Color(0, 0, 51));
+        jpane1.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        jpane1.setForeground(new java.awt.Color(0, 0, 0));
+        jpane1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jpane1.setText("Product ID");
+        jPanel9.add(jpane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 80, 20));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -400,78 +423,55 @@ public class ProductUI extends javax.swing.JFrame {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(scrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(scrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel8.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel10.setBackground(new java.awt.Color(0, 0, 51));
 
-        jLabel11.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("ENTER THE PRODUCT ID  YOU WANT TO UPDATE OR DELETE");
-
-        jTextField6.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField6.setForeground(new java.awt.Color(0, 0, 51));
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdate1.setBackground(new java.awt.Color(0, 0, 51));
+        btnUpdate1.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
+        btnUpdate1.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdate1.setLabel("UPDATE");
+        btnUpdate1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                btnUpdate1ActionPerformed(evt);
             }
         });
 
-        btnUpdate.setBackground(new java.awt.Color(0, 0, 51));
-        btnUpdate.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
-        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
-        btnUpdate.setLabel("UPDATE");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete1.setBackground(new java.awt.Color(0, 0, 51));
+        btnDelete1.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
+        btnDelete1.setForeground(new java.awt.Color(255, 255, 255));
+        btnDelete1.setLabel("DELETE");
+        btnDelete1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
+                btnDelete1ActionPerformed(evt);
             }
         });
 
-        btnDelete.setBackground(new java.awt.Color(0, 0, 51));
-        btnDelete.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
-        btnDelete.setForeground(new java.awt.Color(255, 255, 255));
-        btnDelete.setLabel("DELETE");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jLabel11)))
-                .addContainerGap(206, Short.MAX_VALUE))
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnUpdate1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnDelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnDelete1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdate1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -482,32 +482,36 @@ public class ProductUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -517,15 +521,6 @@ public class ProductUI extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
-        loadClientData();
-    }//GEN-LAST:event_btnDeleteActionPerformed
-
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
 
     private void exit(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exit
         // TODO add your handling code here:
@@ -538,6 +533,7 @@ public class ProductUI extends javax.swing.JFrame {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
         Product product = new Product();
+        product.setProductID(productID.getText());
         product.setName(txtName.getText());
         product.setCode(txtCode.getText());
         product.setCategory(txtCategory.getText());
@@ -586,10 +582,84 @@ public class ProductUI extends javax.swing.JFrame {
         ProductUI.this.setVisible(false);
     }//GEN-LAST:event_jLabel3MouseClicked
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+    private void productIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productIDKeyReleased
         // TODO add your handling code here:
+    }//GEN-LAST:event_productIDKeyReleased
+
+    private void productIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_productIDActionPerformed
+
+    private void btnUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate1ActionPerformed
+
+        String id = productID.getText();
+        String name = txtName.getText();
+        String code = txtCode.getText();
+        String cat = txtCategory.getText();
+
+        if (id == null || id.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Client ID is required for updating a record.", "Missing ID", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Product product = new Product();
+        product.setProductID(id);
+        product.setName(name);
+        product.setCode(code);
+        product.setCategory(cat);
+
+        try {
+            ProductDB.update(product);
+            JOptionPane.showMessageDialog(this, "Client record updated successfully.");
+
+            Clear();
+            loadClientData();
+
+        } catch (RuntimeException e) {
+            // Catch the RuntimeException thrown by ClientDB on SQL failure or connection failure
+            JOptionPane.showMessageDialog(this, "Update failed: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+            // You might still want to log the full exception for debugging
+            Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, "Client Update failed in UI", e);
+        }
+
+    }//GEN-LAST:event_btnUpdate1ActionPerformed
+
+    private void btnDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete1ActionPerformed
+        // TODO add your handling code here:
+        String id = productID.getText();
+
+    // 2. Validate that the ID is present
+    if (id == null || id.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Product ID is required for deleting a record.", "Missing ID", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // 3. Optional: Add a confirmation dialog for safety
+    int dialogResult = JOptionPane.showConfirmDialog(this,
+        "Are you sure you want to delete product ID: " + id + "? This action cannot be undone.",
+        "Confirm Deletion",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE);
+
+    if (dialogResult == JOptionPane.NO_OPTION) {
+        return;
+    }
+
+    Product product = new Product();
+    product.setProductID(id);
+
+    try {
+        ProductDB.delete(product);
+        JOptionPane.showMessageDialog(this, "Product record for ID " + id + " deleted successfully.");
+        Clear();
         loadClientData();
-    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    } catch (RuntimeException e) {
+  
+        JOptionPane.showMessageDialog(this, "Deletion failed: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        Logger.getLogger(ProductUI.class.getName()).log(Level.SEVERE, "Client Deletion failed in UI", e);
+    }
+    }//GEN-LAST:event_btnDelete1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -630,18 +700,20 @@ public class ProductUI extends javax.swing.JFrame {
     private java.awt.Button Clear;
     private javax.swing.JTable JTABLE;
     private java.awt.Button btnDelete;
+    private java.awt.Button btnDelete1;
     private java.awt.Button btnSave;
     private java.awt.Button btnUpdate;
+    private java.awt.Button btnUpdate1;
     private javax.swing.JPanel exit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -651,8 +723,9 @@ public class ProductUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JLabel jpane;
+    private javax.swing.JLabel jpane1;
+    private javax.swing.JTextField productID;
     private java.awt.ScrollPane scrollPane1;
     private javax.swing.JTextField txtCategory;
     private javax.swing.JTextField txtCode;

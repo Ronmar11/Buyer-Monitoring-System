@@ -10,9 +10,7 @@ import DB.ClientDB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +29,8 @@ public class ClientUI extends javax.swing.JFrame {
     public ClientUI() {
         initComponents();
         btnSave.setEnabled(false);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
         loadClientData();
         
     DefaultTableCellRenderer CenterAlign = new DefaultTableCellRenderer();
@@ -40,6 +40,7 @@ public class ClientUI extends javax.swing.JFrame {
 }
     }
     public void Clear(){
+    clientID.setText("");
     firstName.setText("");
     midName.setText("");
     lastName.setText("");
@@ -48,14 +49,25 @@ public class ClientUI extends javax.swing.JFrame {
     }
    
     public void validateFields(){
+    String id = clientID.getText();
     String Fname = firstName.getText();
     String Mname = midName.getText();
     String Lname = lastName.getText();
     String Address = address.getText();
-    if(!Fname.equals("") && !Mname.equals("") && !Lname.equals("") && !Address.equals("")){
+    if(!id.equals("") && !Fname.equals("") && !Mname.equals("") && !Lname.equals("") && !Address.equals("")){
         btnSave.setEnabled(true);
     } else{
         btnSave.setEnabled(false);
+    }
+    if(!id.equals("")){
+        btnUpdate.setEnabled(true);
+    } else{
+        btnUpdate.setEnabled(false);
+    }
+     if(!id.equals("")){
+        btnDelete.setEnabled(true);
+    } else{
+        btnDelete.setEnabled(false);
     }
     
     }
@@ -87,9 +99,6 @@ public class ClientUI extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE);
     }
 }
-    
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -99,7 +108,14 @@ public class ClientUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        btnUpdate = new java.awt.Button();
+        btnDelete = new java.awt.Button();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -130,16 +146,60 @@ public class ClientUI extends javax.swing.JFrame {
         scrollPane1 = new java.awt.ScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         JTABLE = new javax.swing.JTable();
-        jPanel8 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        txtclientID = new javax.swing.JTextField();
-        btnUpdate = new java.awt.Button();
-        btnDelete = new java.awt.Button();
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1100, 550));
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
+
+        jPanel8.setBackground(new java.awt.Color(0, 0, 51));
+
+        btnUpdate.setBackground(new java.awt.Color(0, 0, 51));
+        btnUpdate.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setLabel("UPDATE");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setBackground(new java.awt.Color(0, 0, 51));
+        btnDelete.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
+        btnDelete.setForeground(new java.awt.Color(255, 255, 255));
+        btnDelete.setLabel("DELETE");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(324, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 51));
 
@@ -305,7 +365,7 @@ public class ClientUI extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -413,11 +473,11 @@ public class ClientUI extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 450, 210, 37));
+        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 450, 280, 40));
 
         jLabel12.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel12.setText("CLient ID:");
         jPanel9.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 70, 20));
 
@@ -468,72 +528,6 @@ public class ClientUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel8.setBackground(new java.awt.Color(0, 0, 51));
-
-        jLabel11.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("ENTER THE ID  YOU WANT TO UPDATE OR DELETE");
-
-        txtclientID.setBackground(new java.awt.Color(255, 255, 255));
-        txtclientID.setForeground(new java.awt.Color(0, 0, 51));
-        txtclientID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtclientIDActionPerformed(evt);
-            }
-        });
-
-        btnUpdate.setBackground(new java.awt.Color(0, 0, 51));
-        btnUpdate.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
-        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
-        btnUpdate.setLabel("UPDATE");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-
-        btnDelete.setBackground(new java.awt.Color(0, 0, 51));
-        btnDelete.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
-        btnDelete.setForeground(new java.awt.Color(255, 255, 255));
-        btnDelete.setLabel("DELETE");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(txtclientID, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jLabel11)))
-                .addContainerGap(206, Short.MAX_VALUE))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtclientID, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -552,16 +546,18 @@ public class ClientUI extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 11, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -571,21 +567,18 @@ public class ClientUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
-        loadClientData();
-    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void exit(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exit
         // TODO add your handling code here:
@@ -598,6 +591,8 @@ public class ClientUI extends javax.swing.JFrame {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
         Client client = new Client();
+        
+        client.setClientID(clientID.getText());
         client.setfName(firstName.getText());
         client.setmName(midName.getText());
         client.setlName(lastName.getText());
@@ -653,49 +648,89 @@ public class ClientUI extends javax.swing.JFrame {
         ClientUI.this.setVisible(false);
     }//GEN-LAST:event_jLabel3MouseClicked
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-                
-        String id = txtclientID.getText();
-        String fname = firstName.getText();
-        String mname = midName.getText();
-        String lname = lastName.getText();
-        String adress = address.getText();
-        String gen = (String) gender.getSelectedItem();
-        
-        Connection conn;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bms", "root", "rrabalos");
-            String sql = "UPDATE client SET fName = ?, mName = ?, lName = ?, address = ?, gender = ? WHERE clientID = ?";
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, fname);
-             pst.setString(2, mname);
-              pst.setString(3, lname);
-               pst.setString(4, adress);
-                pst.setString(5, gen);
-                 pst.setString(6, id);
-        
-            int rows = pst.executeUpdate();
-            
-        if (rows > 0) {
-            JOptionPane.showMessageDialog(this, "Client record updated successfully.");
-        } else {
-            JOptionPane.showMessageDialog(this, "Update failed. Client ID may not exist.");
-        }
-          conn.close();   
-          Clear();
-          loadClientData();
-        } catch (SQLException ex) {
-            Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
     private void clientIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_clientIDKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_clientIDKeyReleased
 
-    private void txtclientIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtclientIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtclientIDActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+       String id = clientID.getText();
+
+    // 2. Validate that the ID is present
+    if (id == null || id.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Client ID is required for deleting a record.", "Missing ID", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // 3. Optional: Add a confirmation dialog for safety
+    int dialogResult = JOptionPane.showConfirmDialog(this,
+        "Are you sure you want to delete client ID: " + id + "? This action cannot be undone.",
+        "Confirm Deletion",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE);
+
+    if (dialogResult == JOptionPane.NO_OPTION) {
+        return; // Stop if the user cancels
+    }
+
+    // 4. Create a minimal Client object (only need the ID)
+    Client client = new Client();
+    client.setClientID(id);
+
+    // 5. Call the new delete method
+    try {
+        ClientDB.delete(client); // <-- Calling the new delete method
+        JOptionPane.showMessageDialog(this, "Client record for ID " + id + " deleted successfully.");
+
+        Clear(); // Clear the form fields
+        loadClientData(); // Reload the table data
+
+    } catch (RuntimeException e) {
+        // Catch the RuntimeException thrown by ClientDB on SQL failure
+        JOptionPane.showMessageDialog(this, "Deletion failed: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        // Log the full exception
+        Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, "Client Deletion failed in UI", e);
+    }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+ 
+        String id = clientID.getText();
+        String fname = firstName.getText();
+        String mname = midName.getText();
+        String lname = lastName.getText();
+        String addressValue = address.getText();
+        String genderValue = (String) gender.getSelectedItem();
+
+   
+        if (id == null || id.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Client ID is required for updating a record.", "Missing ID", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Client client = new Client();
+        client.setClientID(id); 
+        client.setfName(fname);
+        client.setmName(mname);
+        client.setlName(lname);
+        client.setaddress(addressValue);
+        client.setGender(genderValue);
+
+        
+        try {
+            ClientDB.update(client); 
+            JOptionPane.showMessageDialog(this, "Client record updated successfully.");
+
+            Clear();
+            loadClientData();
+
+        } catch (RuntimeException e) {
+            // Catch the RuntimeException thrown by ClientDB on SQL failure or connection failure
+            JOptionPane.showMessageDialog(this, "Update failed: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+            // You might still want to log the full exception for debugging
+            Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, "Client Update failed in UI", e);
+        }
+      
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -739,13 +774,14 @@ public class ClientUI extends javax.swing.JFrame {
     private java.awt.Button btnDelete;
     private java.awt.Button btnSave;
     private java.awt.Button btnUpdate;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField clientID;
     private javax.swing.JPanel exit;
     private javax.swing.JTextField firstName;
     private javax.swing.JComboBox<String> gender;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -765,9 +801,10 @@ public class ClientUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField lastName;
     private javax.swing.JTextField midName;
     private java.awt.ScrollPane scrollPane1;
-    private javax.swing.JTextField txtclientID;
     // End of variables declaration//GEN-END:variables
 }
