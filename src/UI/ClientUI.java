@@ -7,13 +7,21 @@ package UI;
 import javax.swing.JOptionPane;
 import Information.Client;
 import DB.ClientDB;
+import DB.ConnectionProvider;
+import DB.DbOperations;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -99,6 +107,61 @@ public class ClientUI extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE);
     }
 }
+    
+        private void exportData() {
+        // chooser object allows user
+        // to choose file location
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Save CSV File");
+        
+        // setting automatic filename format when exporting
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd_HHmmss").format(new java.util.Date());
+        chooser.setSelectedFile(new java.io.File("export_" + timestamp + ".csv"));
+        int userSelection = chooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            // selecting location to save
+            File fileToSave = chooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+          
+            // querying
+            String query = "SELECT * FROM client";
+
+            try (
+                 // database connection
+                 Connection conn = ConnectionProvider.getCon();
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(query);
+                 PrintWriter pw = new PrintWriter(new FileWriter(filePath))
+            ) {
+
+                // data for getting column count
+                ResultSetMetaData meta = rs.getMetaData();
+                int columnCount = meta.getColumnCount();
+
+                // Write header
+                for (int i = 1; i <= columnCount; i++) {
+                    pw.print(meta.getColumnName(i));
+                    if (i < columnCount) pw.print(",");
+                }
+                pw.println();
+
+                // Write data rows
+                while (rs.next()) {
+                    for (int i = 1; i <= columnCount; i++) {
+                        pw.print(rs.getString(i));
+                        if (i < columnCount) pw.print(",");
+                    }
+                    pw.println();
+                }
+
+                JOptionPane.showMessageDialog(this, "Data exported successfully to:\n" + filePath);
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -112,6 +175,7 @@ public class ClientUI extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         btnUpdate = new java.awt.Button();
         btnDelete = new java.awt.Button();
+        button1 = new java.awt.Button();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -168,6 +232,15 @@ public class ClientUI extends javax.swing.JFrame {
             }
         });
 
+        button1.setBackground(new java.awt.Color(0, 0, 51));
+        button1.setForeground(new java.awt.Color(255, 255, 255));
+        button1.setLabel("Export Data");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -177,15 +250,18 @@ public class ClientUI extends javax.swing.JFrame {
                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(324, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
+                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
         jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -692,6 +768,11 @@ public class ClientUI extends javax.swing.JFrame {
       
     }//GEN-LAST:event_btnUpdateActionPerformed
 
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        // TODO add your handling code here:
+        exportData();
+    }//GEN-LAST:event_button1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -734,6 +815,7 @@ public class ClientUI extends javax.swing.JFrame {
     private java.awt.Button btnDelete;
     private java.awt.Button btnSave;
     private java.awt.Button btnUpdate;
+    private java.awt.Button button1;
     private javax.swing.JTextField clientID;
     private javax.swing.JPanel exit;
     private javax.swing.JTextField firstName;

@@ -4,17 +4,24 @@
  */
 package UI;
 
+import DB.ConnectionProvider;
 import javax.swing.JOptionPane;
 import Information.Product;
 import DB.ProductDB;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -81,9 +88,61 @@ public class ProductUI extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE);
     }
 }
-    
-    
-    
+
+      private void exportData() {
+        // chooser object allows user
+        // to choose file location
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Save CSV File");
+        
+        // setting automatic filename format when exporting
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd_HHmmss").format(new java.util.Date());
+        chooser.setSelectedFile(new java.io.File("export_" + timestamp + ".csv"));
+        int userSelection = chooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            // selecting location to save
+            File fileToSave = chooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+          
+            // querying
+            String query = "SELECT * FROM product";
+
+            try (
+                 // database connection
+                 Connection conn = ConnectionProvider.getCon();
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(query);
+                 PrintWriter pw = new PrintWriter(new FileWriter(filePath))
+            ) {
+
+                // data for getting column count
+                ResultSetMetaData meta = rs.getMetaData();
+                int columnCount = meta.getColumnCount();
+
+                // Write header
+                for (int i = 1; i <= columnCount; i++) {
+                    pw.print(meta.getColumnName(i));
+                    if (i < columnCount) pw.print(",");
+                }
+                pw.println();
+
+                // Write data rows
+                while (rs.next()) {
+                    for (int i = 1; i <= columnCount; i++) {
+                        pw.print(rs.getString(i));
+                        if (i < columnCount) pw.print(",");
+                    }
+                    pw.println();
+                }
+
+                JOptionPane.showMessageDialog(this, "Data exported successfully to:\n" + filePath);
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -123,6 +182,7 @@ public class ProductUI extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         btnUpdate1 = new java.awt.Button();
         btnDelete1 = new java.awt.Button();
+        button1 = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -456,6 +516,15 @@ public class ProductUI extends javax.swing.JFrame {
             }
         });
 
+        button1.setBackground(new java.awt.Color(0, 0, 51));
+        button1.setForeground(new java.awt.Color(255, 255, 255));
+        button1.setLabel("Export Data");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -465,15 +534,18 @@ public class ProductUI extends javax.swing.JFrame {
                 .addComponent(btnUpdate1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnDelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDelete1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUpdate1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(button1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDelete1, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                    .addComponent(btnUpdate1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -663,6 +735,11 @@ public class ProductUI extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_btnDelete1ActionPerformed
 
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        // TODO add your handling code here:
+        exportData();
+    }//GEN-LAST:event_button1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -701,11 +778,10 @@ public class ProductUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button Clear;
     private javax.swing.JTable JTABLE;
-    private java.awt.Button btnDelete;
     private java.awt.Button btnDelete1;
     private java.awt.Button btnSave;
-    private java.awt.Button btnUpdate;
     private java.awt.Button btnUpdate1;
+    private java.awt.Button button1;
     private javax.swing.JPanel exit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -722,7 +798,6 @@ public class ProductUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jpane;
