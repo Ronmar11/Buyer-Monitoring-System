@@ -9,14 +9,18 @@ package Information;
  * @author Ronmar abalos
  */
 public class Client {
+   
     private int clientID;
     private String fName;
     private String mName;
     private String lName;
     private String address;
     private String gender;
+   
+    public void setclientID(int clientID) {
+        this.clientID = clientID;
+    }
 
- 
     public int getclientID(){
         return clientID;
     }
@@ -39,7 +43,6 @@ public class Client {
     public String getlName() {
         return lName;
     }
-
     public void setlName(String lName) {
         this.lName = lName;
     }

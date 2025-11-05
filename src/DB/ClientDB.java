@@ -4,7 +4,15 @@
  */
 package DB;
 
+
 import Information.Client;
+import java.sql.PreparedStatement;
+import DB.ConnectionProvider; // Import your ConnectionProvider class
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Ronmar abalos
@@ -12,7 +20,6 @@ import Information.Client;
 public class ClientDB {
     public static void save(Client client){
         String query = "insert into client(fName, mName, lName, address, gender) values('"+client.getfName()+"', '"+client.getmName()+"', '"+client.getlName()+"', '"+client.getaddress()+"', '"+client.getGender()+"')";
-        DbOperations.setDataOrDelete(query, "Added Successfully!");       
-    }
-    
+        DbOperations.setDataOrDelete(query, "Added Successfully!");   
+    } 
 }
