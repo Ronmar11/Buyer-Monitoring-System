@@ -12,8 +12,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import DB.ConnectionProvider;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import DB.TransactionDB;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.sql.ResultSetMetaData;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -32,6 +40,9 @@ public class TransactionUI extends javax.swing.JFrame {
         
         loadClients();
         loadProducts();
+        loadTransactionData();
+        txtClientTransaction.setEnabled(true);
+        txtProductTransaction.setEnabled(true);
          
         DefaultTableCellRenderer CenterAlign = new DefaultTableCellRenderer();
         CenterAlign.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -48,49 +59,24 @@ public class TransactionUI extends javax.swing.JFrame {
     
     }
    
-  public void validateFields() {
-    // 1. Retrieve data from UI components
-        String id = txtbuyID.getText();
-        Object clientObject = txtClientTransaction.getSelectedItem(); // Get Object first
-        Object productObject = txtProductTransaction.getSelectedItem(); // Get Object first
-        String quantityText = txtQuantityTransaction.getText(); // Keep as String for validation
-        String priceText = txtPriceTransaction.getText();       // Keep as String for validation
-        Date date = txtDate.getDate();
-
-        // 2. Check basic String fields for emptiness
-        boolean areStringsValid = !id.trim().isEmpty() &&
-                                  clientObject != null &&
-                                  productObject != null &&
-                                  !quantityText.trim().isEmpty() &&
-                                  !priceText.trim().isEmpty();
-
-        // 3. Check Date field for null (assuming JDateChooser/similar component)
-        boolean isDateValid = (date != null);
-
-        // 4. Check if Quantity and Price are valid numbers (optional but recommended)
-        boolean areNumbersValid = false;
-        try {
-            // Attempt to parse the text into integers
-            int quant = Integer.parseInt(quantityText.trim());
-            int price = Integer.parseInt(priceText.trim());
-
-            // Ensure both quantity and price are greater than zero
-            if (quant > 0 && price > 0) {
-                areNumbersValid = true;
-            }
-        } catch (NumberFormatException e) {
-            // If parsing fails, numbers are not valid, and areNumbersValid remains false
-            areNumbersValid = false;
-        }
-
-        // 5. Final validation check
-        if (areStringsValid && isDateValid && areNumbersValid) {
-            btnSave.setEnabled(true);
-        } else {
-            btnSave.setEnabled(false);
-        }
-}
-       private void loadTransactionData() {
+public void validateFields(){
+    String id = txtbuyID.getText();
+    Object Fname = txtClientTransaction.getSelectedItem();
+    Object Mname = txtProductTransaction.getSelectedItem();
+    String Lname = txtQuantityTransaction.getText();
+    String tran = txtPriceTransaction.getText();
+    if(!id.equals("") && !Fname.equals("") && !Mname.equals("") && !Lname.equals("") && !tran.equals("")){
+        btnSave.setEnabled(true);
+    } else{
+        btnSave.setEnabled(false);
+    }
+     if(!id.equals("")){
+        btnDelete.setEnabled(true);
+    } else{
+        btnDelete.setEnabled(false);
+    }
+    }
+private void loadTransactionData() {
     DefaultTableModel model = (DefaultTableModel) JTABLE.getModel();
     model.setRowCount(0); 
 
@@ -101,13 +87,13 @@ public class TransactionUI extends javax.swing.JFrame {
 
         while (rs.next()) {
             String id = rs.getString("buyID");
-            int price = rs.getInt("Price");
-            int quan = rs.getInt("Quantity");
-            String  clName = rs.getString("clientName");
-            String  prodName = rs.getString("productName");
+            String clName = rs.getString("clientName");
+            String pName = rs.getString("productName");
+            int  quan = rs.getInt("Quantity");
+            int  price = rs.getInt("price");
             String  date = rs.getString("Date");
             
-            model.addRow(new Object[]{id, price, quan, clName, prodName, date});
+            model.addRow(new Object[]{id, clName, pName, quan, price, date});
         }
 
     } catch (Exception e) {
@@ -116,9 +102,7 @@ public class TransactionUI extends javax.swing.JFrame {
                 "Database Error",
                 JOptionPane.ERROR_MESSAGE);
     }
-}
-    
- 
+} 
 public void loadClients() {
     txtClientTransaction.removeAllItems();
 
@@ -173,6 +157,60 @@ public void loadProducts() {
         JOptionPane.showMessageDialog(null, "Error loading product list: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
     }
 }
+private void exportData() {
+        // chooser object allows user
+        // to choose file location
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Save CSV File");
+        
+        // setting automatic filename format when exporting
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd_HHmmss").format(new java.util.Date());
+        chooser.setSelectedFile(new java.io.File("export_" + timestamp + ".csv"));
+        int userSelection = chooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            // selecting location to save
+            File fileToSave = chooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+          
+            // querying
+            String query = "SELECT buyID, clientName,  productName, quantity, price, date FROM transaction";
+
+            try (
+                 // database connection
+                 Connection conn = ConnectionProvider.getCon();
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(query);
+                 PrintWriter pw = new PrintWriter(new FileWriter(filePath))
+            ) {
+
+                // data for getting column count
+                ResultSetMetaData meta = rs.getMetaData();
+                int columnCount = meta.getColumnCount();
+
+                // Write header
+                for (int i = 1; i <= columnCount; i++) {
+                    pw.print(meta.getColumnName(i));
+                    if (i < columnCount) pw.print(",");
+                }
+                pw.println();
+
+                // Write data rows
+                while (rs.next()) {
+                    for (int i = 1; i <= columnCount; i++) {
+                        pw.print(rs.getString(i));
+                        if (i < columnCount) pw.print(",");
+                    }
+                    pw.println();
+                }
+
+                JOptionPane.showMessageDialog(this, "Data exported successfully to:\n" + filePath);
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            }
+        }
+    }
 
 
     
@@ -215,6 +253,9 @@ public void loadProducts() {
         scrollPane1 = new java.awt.ScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         JTABLE = new javax.swing.JTable();
+        jPanel8 = new javax.swing.JPanel();
+        btnDelete = new java.awt.Button();
+        button1 = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -393,7 +434,7 @@ public void loadProducts() {
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Date:");
-        jPanel9.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, 30, 30));
+        jPanel9.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, 30, 30));
 
         txtClientTransaction.setBackground(new java.awt.Color(255, 255, 255));
         txtClientTransaction.addActionListener(new java.awt.event.ActionListener() {
@@ -418,7 +459,12 @@ public void loadProducts() {
                 txtQuantityTransactionActionPerformed(evt);
             }
         });
-        jPanel9.add(txtQuantityTransaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 280, 40));
+        txtQuantityTransaction.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtQuantityTransactionKeyReleased(evt);
+            }
+        });
+        jPanel9.add(txtQuantityTransaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 280, 50));
 
         txtPriceTransaction.setBackground(new java.awt.Color(255, 255, 255));
         txtPriceTransaction.addActionListener(new java.awt.event.ActionListener() {
@@ -426,7 +472,12 @@ public void loadProducts() {
                 txtPriceTransactionActionPerformed(evt);
             }
         });
-        jPanel9.add(txtPriceTransaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 280, 40));
+        txtPriceTransaction.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPriceTransactionKeyReleased(evt);
+            }
+        });
+        jPanel9.add(txtPriceTransaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 280, 50));
 
         btnSave.setBackground(new java.awt.Color(0, 0, 51));
         btnSave.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -449,6 +500,11 @@ public void loadProducts() {
         txtbuyID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtbuyIDActionPerformed(evt);
+            }
+        });
+        txtbuyID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtbuyIDKeyReleased(evt);
             }
         });
         jPanel9.add(txtbuyID, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 280, 50));
@@ -474,12 +530,54 @@ public void loadProducts() {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
+            .addComponent(scrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(scrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+                .addComponent(scrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel8.setBackground(new java.awt.Color(0, 0, 51));
+
+        btnDelete.setBackground(new java.awt.Color(0, 0, 51));
+        btnDelete.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
+        btnDelete.setForeground(new java.awt.Color(255, 255, 255));
+        btnDelete.setLabel("DELETE");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        button1.setBackground(new java.awt.Color(0, 0, 51));
+        button1.setForeground(new java.awt.Color(255, 255, 255));
+        button1.setLabel("Export Data");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 315, Short.MAX_VALUE)
+                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(button1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -492,7 +590,11 @@ public void loadProducts() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -501,10 +603,11 @@ public void loadProducts() {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE))
+                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -533,12 +636,10 @@ public void loadProducts() {
 
     private void txtClientTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClientTransactionActionPerformed
         // TODO add your handling code here:
-        loadClients();
     }//GEN-LAST:event_txtClientTransactionActionPerformed
 
     private void txtProductTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductTransactionActionPerformed
         // TODO add your handling code here:
-        loadProducts();
     }//GEN-LAST:event_txtProductTransactionActionPerformed
 
     private void txtPriceTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceTransactionActionPerformed
@@ -551,17 +652,43 @@ public void loadProducts() {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-         Transaction transaction = new Transaction();
         
+        Transaction transaction = new Transaction();
         transaction.setBuyID(txtbuyID.getText());
         transaction.setClientName((String) txtClientTransaction.getSelectedItem());
         transaction.setProductName((String) txtProductTransaction.getSelectedItem());
-        transaction.setQuantity(Integer.parseInt(txtQuantityTransaction.getText()));
-        transaction.setPrice(Integer.parseInt(txtPriceTransaction.getText()));
-        transaction.setData(txtDate.getDate());
-        TransactionDB.save(transaction);
-        Clear();
-        loadTransactionData();
+  
+       try {
+            int quantity = Integer.parseInt(txtQuantityTransaction.getText().trim());
+            transaction.setQuantity(quantity);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid quantity number", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            int price = Integer.parseInt(txtPriceTransaction.getText().trim());
+            transaction.setPrice(price);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid price", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+            // Get date from JDateChooser
+            Date selectedDate = txtDate.getDate();
+            if (selectedDate == null) {
+                JOptionPane.showMessageDialog(this, "Please select a date", "Missing Date", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Convert Date to String
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = sdf.format(selectedDate);
+            transaction.setDate(dateString);
+
+            TransactionDB.save(transaction);
+            Clear();
+            loadTransactionData();
 
 
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -584,6 +711,64 @@ public void loadProducts() {
         clientUI.setVisible(true);
         TransactionUI.this.setVisible(false);
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        String id = txtbuyID.getText();
+
+        if (id == null || id.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Transaction ID is required for deleting a record.", "Missing ID", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 3. Optional: Add a confirmation dialog for safety
+        int dialogResult = JOptionPane.showConfirmDialog(this,
+            "Are you sure you want to delete Transaction ID: " + id + "? This action cannot be undone.",
+            "Confirm Deletion",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE);
+
+        if (dialogResult == JOptionPane.NO_OPTION) {
+            return; // Stop if the user cancels
+        }
+
+        // 4. Create a minimal Client object (only need the ID)
+        Transaction transaction = new Transaction();
+        transaction.setBuyID(id);
+
+        // 5. Call the new delete method
+        try {
+            TransactionDB.delete(transaction);
+            JOptionPane.showMessageDialog(this, "Transaction record for ID " + id + " deleted successfully.");
+            Clear();
+            loadTransactionData();
+        } catch (RuntimeException e) {
+          
+            JOptionPane.showMessageDialog(this, "Deletion failed: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+            // Log the full exception
+            Logger.getLogger(TransactionUI.class.getName()).log(Level.SEVERE, "Transaction Deletion failed in UI", e);
+        }
+
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        // TODO add your handling code here:
+        exportData();
+    }//GEN-LAST:event_button1ActionPerformed
+
+    private void txtbuyIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuyIDKeyReleased
+        // TODO add your handling code here:
+        validateFields();
+    }//GEN-LAST:event_txtbuyIDKeyReleased
+
+    private void txtQuantityTransactionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityTransactionKeyReleased
+        // TODO add your handling code here:
+        validateFields();
+    }//GEN-LAST:event_txtQuantityTransactionKeyReleased
+
+    private void txtPriceTransactionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceTransactionKeyReleased
+        // TODO add your handling code here:
+        validateFields();
+    }//GEN-LAST:event_txtPriceTransactionKeyReleased
 
     /**
      * @param args the command line arguments
@@ -622,7 +807,9 @@ public void loadProducts() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTABLE;
+    private java.awt.Button btnDelete;
     private java.awt.Button btnSave;
+    private java.awt.Button button1;
     private javax.swing.JPanel exit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -640,6 +827,7 @@ public void loadProducts() {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private java.awt.ScrollPane scrollPane1;

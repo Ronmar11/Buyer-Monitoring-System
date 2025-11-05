@@ -21,6 +21,8 @@ public class Tables {
                       + "buyID varchar(50), "
                       + "clientID varchar(50), "
                       + "productID varchar(50), "
+                      + "productName varchar(50), "
+                      + "clientName varchar(50), "
                       + "price DECIMAL(10,2), "
                       + "quantity INT, "
                       + "date DATE, "

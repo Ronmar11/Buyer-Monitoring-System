@@ -160,8 +160,6 @@ public class ProductUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         exit = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
@@ -273,30 +271,6 @@ public class ProductUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel6.setBackground(new java.awt.Color(0, 0, 51));
-
-        jLabel4.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("DASHBOARD");
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         exit.setBackground(new java.awt.Color(0, 0, 51));
         exit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -334,9 +308,7 @@ public class ProductUI extends javax.swing.JFrame {
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -351,9 +323,7 @@ public class ProductUI extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -366,7 +336,7 @@ public class ProductUI extends javax.swing.JFrame {
         jpane.setForeground(new java.awt.Color(0, 0, 0));
         jpane.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jpane.setText("Product Name: ");
-        jPanel9.add(jpane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 80, 20));
+        jPanel9.add(jpane, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 80, 20));
 
         txtName.setBackground(new java.awt.Color(255, 255, 255));
         txtName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -375,14 +345,14 @@ public class ProductUI extends javax.swing.JFrame {
                 txtNameKeyReleased(evt);
             }
         });
-        jPanel9.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 280, 50));
+        jPanel9.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 280, 50));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 51));
         jLabel6.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setText("Code");
-        jPanel9.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 70, 20));
+        jPanel9.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 70, 20));
 
         txtCode.setBackground(new java.awt.Color(255, 255, 255));
         txtCode.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -391,14 +361,14 @@ public class ProductUI extends javax.swing.JFrame {
                 txtCodeKeyReleased(evt);
             }
         });
-        jPanel9.add(txtCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 280, 50));
+        jPanel9.add(txtCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 280, 50));
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 51));
         jLabel8.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("Category");
-        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 70, 20));
+        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 70, 20));
 
         txtCategory.setBackground(new java.awt.Color(255, 255, 255));
         txtCategory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -412,7 +382,7 @@ public class ProductUI extends javax.swing.JFrame {
                 txtCategoryKeyReleased(evt);
             }
         });
-        jPanel9.add(txtCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 280, 50));
+        jPanel9.add(txtCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 280, 50));
 
         Clear.setBackground(new java.awt.Color(0, 0, 51));
         Clear.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -423,7 +393,7 @@ public class ProductUI extends javax.swing.JFrame {
                 ClearActionPerformed(evt);
             }
         });
-        jPanel9.add(Clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 280, 40));
+        jPanel9.add(Clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 280, 50));
 
         btnSave.setBackground(new java.awt.Color(0, 0, 51));
         btnSave.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -434,7 +404,7 @@ public class ProductUI extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 280, 40));
+        jPanel9.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 280, 50));
 
         productID.setBackground(new java.awt.Color(255, 255, 255));
         productID.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -448,14 +418,14 @@ public class ProductUI extends javax.swing.JFrame {
                 productIDKeyReleased(evt);
             }
         });
-        jPanel9.add(productID, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 280, 50));
+        jPanel9.add(productID, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 280, 50));
 
         jpane1.setBackground(new java.awt.Color(0, 0, 51));
         jpane1.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         jpane1.setForeground(new java.awt.Color(0, 0, 0));
         jpane1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jpane1.setText("Product ID");
-        jPanel9.add(jpane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 80, 20));
+        jPanel9.add(jpane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 80, 20));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -485,7 +455,7 @@ public class ProductUI extends javax.swing.JFrame {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
+            .addComponent(scrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -530,11 +500,11 @@ public class ProductUI extends javax.swing.JFrame {
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnUpdate1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addComponent(btnDelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(142, 142, 142)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -556,11 +526,10 @@ public class ProductUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -570,12 +539,11 @@ public class ProductUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -787,7 +755,6 @@ public class ProductUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
@@ -796,7 +763,6 @@ public class ProductUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;

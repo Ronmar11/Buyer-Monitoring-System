@@ -11,6 +11,7 @@ import java.util.Date;
  * @author Ronmar abalos
  */
 public class Transaction {
+    
    private String buyID;
    private int Price;
    private int Quantity;
@@ -64,10 +65,6 @@ public class Transaction {
     
     public void setDate(String Date){
         this.Date = Date;
-    }
-
-    public void setData(Date date) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
  
 }
