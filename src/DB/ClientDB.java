@@ -29,7 +29,7 @@ public class ClientDB {
         List<String> setClauses = new ArrayList<>();
         List<String> parameters = new ArrayList<>();
         
-        // 1. Build the dynamic SET clause and collect parameters
+
         if (client.getfName() != null && !client.getfName().trim().isEmpty()) {
             setClauses.add("fName = ?");
             parameters.add(client.getfName());

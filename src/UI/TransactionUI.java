@@ -6,7 +6,6 @@ package UI;
 
 import javax.swing.JOptionPane;
 import Information.Transaction;
-import DB.ClientDB;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -121,7 +120,7 @@ public void loadClients() {
         while (rs.next()) {
             String clientID = rs.getString("clientID");
             String fullName = rs.getString("FullName");
-            txtClientTransaction.addItem(clientID + " - " + fullName);
+            txtClientTransaction.addItem(fullName);
         }  
     } catch (Exception e) {
         System.err.println("Error loading clients: " + e.getMessage());
@@ -148,7 +147,7 @@ public void loadProducts() {
         while (rs.next()) {
             String productID = rs.getString("productID");
             String productName = rs.getString("txtName");
-            txtProductTransaction.addItem(productID + " - " + productName);
+            txtProductTransaction.addItem( productName);
         }
 
     } catch (Exception e) {
@@ -235,6 +234,8 @@ private void exportData() {
         jLabel3 = new javax.swing.JLabel();
         exit = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
+        cid = new javax.swing.JLabel();
+        pid = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -358,6 +359,10 @@ private void exportData() {
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("x");
 
+        cid.setEnabled(false);
+
+        pid.setEnabled(false);
+
         javax.swing.GroupLayout exitLayout = new javax.swing.GroupLayout(exit);
         exit.setLayout(exitLayout);
         exitLayout.setHorizontalGroup(
@@ -365,14 +370,26 @@ private void exportData() {
             .addGroup(exitLayout.createSequentialGroup()
                 .addGap(64, 64, 64)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addComponent(cid, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, exitLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pid, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         exitLayout.setVerticalGroup(
             exitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(exitLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGroup(exitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(exitLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(exitLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(cid)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(pid)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -810,6 +827,7 @@ private void exportData() {
     private java.awt.Button btnDelete;
     private java.awt.Button btnSave;
     private java.awt.Button button1;
+    private javax.swing.JLabel cid;
     private javax.swing.JPanel exit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -830,6 +848,7 @@ private void exportData() {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel pid;
     private java.awt.ScrollPane scrollPane1;
     private javax.swing.JComboBox<String> txtClientTransaction;
     private com.toedter.calendar.JDateChooser txtDate;
